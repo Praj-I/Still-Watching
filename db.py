@@ -1,11 +1,12 @@
 """SQLite file."""
+
 import sqlite3
 from typing import Any
 
 def init_db() -> None:
-    """Constructor to create 2 tables: one for shows added,
-    and another for the episodes of those shows. Used to check for updates via
-    episode count."""
+    """Constructor to create 3 tables: one for shows added,
+    one for the episodes of those shows, and one for emails.
+    Used to check for updates via episode count."""
 
     # Open a connection to database
     conn = sqlite3.connect("still_watching.db")
@@ -28,6 +29,13 @@ def init_db() -> None:
             title TEXT
         )
     """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS email_configurations (
+        id INTEGER PRIMARY KEY,
+        notify_email TEXT
+    )
+""")
 
     # Save changes
     conn.commit()
@@ -87,7 +95,7 @@ def add_episode(episode_id: int, show_netflix_id: int, season_number: int,
     cursor.execute("INSERT INTO episodes (episode_id, show_netflix_id, season, episode, title) VALUES (?, ?, ?, ?, ?)",
                         (episode_id, show_netflix_id, season_number, episode_number, title)
                     )
-    
+
     conn.commit()
     conn.close()
 
@@ -103,3 +111,32 @@ def remove_show(netflix_id: int) -> None:
 
     conn.commit()
     conn.close()
+
+def set_email(email: str) -> None:
+    """Saves the user's email for notifications."""
+    conn = sqlite3.connect("still_watching.db")
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT OR REPLACE INTO email_configurations (id, notify_email) VALUES (1, ?)",
+                    (email,)
+                    )
+
+    conn.commit()
+    conn.close()
+
+def get_email() -> str | None:
+    """Returns the user's email."""
+    conn = sqlite3.connect("still_watching.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT notify_email FROM email_configurations WHERE id = 1")
+
+    email = cursor.fetchone()
+
+    conn.close()
+
+    if not email:
+        return None
+    else:
+        return str(email["notify_email"])

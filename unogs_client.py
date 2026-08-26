@@ -2,6 +2,7 @@
 
 import os
 from typing import Any
+from tenacity import retry, wait_exponential, stop_after_attempt
 import requests
 from dotenv import load_dotenv
 
@@ -32,7 +33,7 @@ def search_show (query: str) -> Any:
 
     return show["results"]
 
-
+@retry(wait=wait_exponential(), stop=stop_after_attempt(4))
 def get_episodes(netflix_id: int) -> Any:
     """Get the full episode list for a show.
     Returns a list of episodes with episode_id, season_number,
