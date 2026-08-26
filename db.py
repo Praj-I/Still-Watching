@@ -53,7 +53,7 @@ def add_show(netflix_id: int, title: str) -> None:
     conn.commit()
     conn.close()
 
-def list_shows() -> list[Any]:
+def list_shows() -> list[dict[str, Any]]:
     """Returns a list of all shows the user wants to be updated on."""
 
     conn = sqlite3.connect("still_watching.db")
@@ -66,7 +66,24 @@ def list_shows() -> list[Any]:
 
     conn.close()
 
-    return all_shows
+    return [dict(row) for row in all_shows]
+
+def get_show_title(netflix_id: int) -> str | None:
+    """Returns the title of a show given its netflix_id, if found."""
+
+    conn = sqlite3.connect("still_watching.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT title FROM shows WHERE netflix_id = ?", (netflix_id,))
+    row = cursor.fetchone()
+
+    conn.close()
+
+    if not row:
+        return None
+
+    return str(row["title"])
 
 def current_episodes(netflix_id: int) -> set[Any]:
     """Returns all current episode ids for a given show."""
