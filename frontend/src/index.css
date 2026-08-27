@@ -1,0 +1,27 @@
+:root {
+  --bg: #0C0C10;
+  --surface: #18181E;
+  --text: #F1ECDD;
+  --muted: #8B8B93;
+  --accent-alert: #D6423A;
+  --accent-glow: #D4A24C;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+#root {
+  min-height: 100vh;
+}

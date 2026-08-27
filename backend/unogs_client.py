@@ -26,12 +26,12 @@ def search_show (query: str) -> Any:
 
     querystring = { "title": query,
                     "type": "series",
-                    "order_by": "date"}
+                    "order_by": "title"}
     response = requests.get(SEARCH_URL, headers=headers, params=querystring, timeout=10)
     response.raise_for_status()
     show = response.json()
 
-    return show["results"]
+    return show["results"] or []
 
 @retry(wait=wait_exponential(), stop=stop_after_attempt(4))
 def get_episodes(netflix_id: int) -> Any:

@@ -1,0 +1,84 @@
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.popup {
+    background-color: var(--surface);
+    border-radius: 8px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+    font-family: var(--font-body);
+    color: var(--text);
+}
+
+.popup h2 {
+    margin-top: 0;
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+    color: var(--accent-glow);
+}
+
+.popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.popup li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #2A2A32;
+}
+
+.email-field {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.email-field label {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.email-field input {
+    padding: 0.6rem 0.8rem;
+    background-color: var(--bg);
+    border: 1px solid #2A2A32;
+    border-radius: 4px;
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.popup-actions button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    border: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.save-button {
+    background-color: var(--accent-glow);
+    color: var(--bg);
+}
+
+.save-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
